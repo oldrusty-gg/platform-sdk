@@ -1,0 +1,19 @@
+[package]
+name = "platform-net"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "The platform's network layer for the launcher and every game: framed JSON connections, TLS with web-PKI or a pinned certificate, the server file and saved session, and the account protocol (sign-up, log-in, sessions, email) of an account-only connection. No dependency on any game crate (it lives in the platform-sdk repository)."
+
+# Keep this crate free of roses-* dependencies: the launcher's Profile page
+# uses it without any game, and games build their own lobby on top of it.
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+# TLS for every connection that leaves the machine (ring provider: no
+# cmake/NASM needed on Windows); Mozilla's roots for servers with a public
+# certificate (Let's Encrypt), a pinned SHA-256 for a self-signed one.
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+webpki-roots = "1"

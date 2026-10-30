@@ -1,0 +1,20 @@
+[package]
+name = "platform-video"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Video recording tool (not gameplay): rendered frames and mixed sound straight to an H.264/AAC MP4 through Windows Media Foundation's Sink Writer. No external programs. Shared by the launcher and the games."
+
+# No game crate: frames and sound come in as plain pixels and PCM.
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+windows-core = "=0.62.2"
+windows = { version = "=0.62.2", features = ["Win32_Foundation", "Win32_Media_MediaFoundation", "Win32_Media_Audio", "Win32_System_Com"] }
+
+[dev-dependencies]
+png.workspace = true
+
